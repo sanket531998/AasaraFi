@@ -1,36 +1,26 @@
-// // app/providers.tsx
-// "use client";
+// app/providers.tsx
+"use client";
 
-// import { ReactNode } from "react";
-// import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
-// import { createConfig, WagmiConfig } from "wagmi";
-// import { configureChains } from "wagmi";
-// import { sepolia } from "wagmi/chains";
-// import { publicProvider } from "wagmi/providers/public";
-// import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { PrivyProvider } from "@privy-io/react-auth";
+import { ReactNode } from "react";
 
-// const { chains, publicClient } = configureChains([sepolia], [publicProvider()]);
+const Providers = ({ children }: { children: ReactNode }) => {
+  return (
+    <PrivyProvider
+      appId="cmdiktk1f01kul70i622xmt71" // Replace with your actual ID
+      config={{
+        loginMethods: ["wallet", "email", "google"],
+        embeddedWallets: {
+          // createOnLogin:  { enabled: true },
+        },
+        appearance: {
+          theme: "light", // or "dark"
+        },
+      }}
+    >
+      {children}
+    </PrivyProvider>
+  );
+};
 
-// const { connectors } = getDefaultWallets({
-//   appName: "AasaraFi",
-//   projectId: "YOUR_WALLETCONNECT_PROJECT_ID", // Replace this
-//   chains,
-// });
-
-// const wagmiConfig = createConfig({
-//   autoConnect: true,
-//   connectors,
-//   publicClient,
-// });
-
-// const queryClient = new QueryClient();
-
-// export default function Providers({ children }: { children: ReactNode }) {
-//   return (
-//     <WagmiConfig config={wagmiConfig}>
-//       <QueryClientProvider client={queryClient}>
-//         <RainbowKitProvider chains={chains}>{children}</RainbowKitProvider>
-//       </QueryClientProvider>
-//     </WagmiConfig>
-//   );
-// }
+export default Providers;
